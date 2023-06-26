@@ -44,7 +44,7 @@ def main(
         shutil.rmtree(memory_path, ignore_errors=True)
         shutil.rmtree(workspace_path, ignore_errors=True)
 
-    model = fallback_model(model)
+    # model = fallback_model(model)
 
     ai = AI(
         model=model,
