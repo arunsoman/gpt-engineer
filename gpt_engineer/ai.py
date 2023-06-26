@@ -3,14 +3,30 @@ from __future__ import annotations
 import logging
 
 import openai
+from langchain import PromptTemplate, LLMChain HuggingFacePipeline
+
+template = """Question: {question}
+
+Answer: Let's think step by step."""
+prompt = PromptTemplate(template=template, input_variables=["question"])
+
+
+question = "What is electroencephalography?"
+
 
 logger = logging.getLogger(__name__)
 
 
 class AI:
     def __init__(self, model="gpt-4", temperature=0.1):
-        self.temperature = temperature
-        self.model = model
+        self.llm = HuggingFacePipeline.from_model_id(
+    model_id="mosaicml/mpt-7b-instruct",
+    task="text-generation",
+    model_kwargs={"temperature": temperature, "max_length": 2048},
+)
+        # self.temperature = temperature
+        
+        # self.model = model
 
     def start(self, system, user):
         messages = [
@@ -32,14 +48,17 @@ class AI:
     def next(self, messages: list[dict[str, str]], prompt=None):
         if prompt:
             messages += [{"role": "user", "content": prompt}]
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        response = llm_chain.run(messages)
+        print("responsed from llm", response)
 
         logger.debug(f"Creating a new chat completion: {messages}")
-        response = openai.ChatCompletion.create(
-            messages=messages,
-            stream=True,
-            model=self.model,
-            temperature=self.temperature,
-        )
+        # response = openai.ChatCompletion.create(
+        #     messages=messages,
+        #     stream=True,
+        #     model=self.model,
+        #     temperature=self.temperature,
+        # )
 
         chat = []
         for chunk in response:
