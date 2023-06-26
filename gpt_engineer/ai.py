@@ -48,6 +48,8 @@ class AI:
     def next(self, messages: list[dict[str, str]], prompt=None):
         if prompt:
             messages += [{"role": "user", "content": prompt}]
+        print(f"Creating a new chat completion: {messages}")
+        
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         response = llm_chain.run(messages)
         print("responsed from llm", response)
