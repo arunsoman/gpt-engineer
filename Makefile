@@ -22,7 +22,7 @@ help:
 
 dev-install: install
 
-install: create-venv upgrade-pip install-dependencies install-pre-commit farewell
+install:  upgrade-pip install-dependencies install-pre-commit farewell
 
 create-venv:
 	@echo -e "$(COLOR_CYAN)Creating virtual environment...$(COLOR_RESET)" && \
@@ -30,17 +30,14 @@ create-venv:
 
 upgrade-pip:
 	@echo -e "$(COLOR_CYAN)Upgrading pip...$(COLOR_RESET)" && \
-	source venv/bin/activate && \
 	pip install --upgrade pip >> /dev/null
 
 install-dependencies:
 	@echo -e "$(COLOR_CYAN)Installing dependencies...$(COLOR_RESET)" && \
-	source venv/bin/activate && \
 	pip install -e . >> /dev/null
 
 install-pre-commit:
 	@echo -e "$(COLOR_CYAN)Installing pre-commit hooks...$(COLOR_RESET)" && \
-	source venv/bin/activate && \
 	pre-commit install
 
 farewell:
@@ -48,5 +45,4 @@ farewell:
 
 run:
 	@echo -e "$(COLOR_CYAN)Running GPT Engineer on $(COLOR_GREEN)$(name)$(COLOR_CYAN) folder...$(COLOR_RESET)" && \
-	source venv/bin/activate && \
 	gpt-engineer projects/$(name)
