@@ -22,7 +22,7 @@ class AI:
         self.llm = HuggingFacePipeline.from_model_id(
     model_id="mosaicml/mpt-7b-instruct",
     task="text-generation",
-    model_kwargs={"temperature": temperature, "max_length": 2048},
+    model_kwargs={'trust_remote_code':True,"temperature": temperature, "max_length": 2048},
 )
         # self.temperature = temperature
         
